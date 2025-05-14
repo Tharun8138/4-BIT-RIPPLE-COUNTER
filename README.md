@@ -10,7 +10,7 @@ Quartus prime
 
 **THEORY**
 
-**4 Bit Ripple Counter**
+# 4 Bit Ripple Counter
 
 A binary ripple counter consists of a series connection of complementing flip-flops (T or JK type), with the output of each flip-flop connected to the Clock Pulse input of the next higher-order flip-flop. The flip-flop holding the least significant bit receives the incoming count pulses. The diagram of a 4-bit binary ripple counter is shown in Fig. below.
 
@@ -24,17 +24,85 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
 
 **Procedure**
 
-/* write all the steps invloved */
+### 1.Increment count on each positive edge of the clock.
+### 2.Reset count to zero when it reaches 15.
+### 3.Generate clock signal (clk).
+### 4.Instantiate the RippleCounter module.
+### 5.Conduct functional testing by displaying the count at each clock cycle for 16 cycles.
 
-**PROGRAM**
+
+# PROGRAM
 
 /* Program for 4 Bit Ripple Counter and verify its truth table in quartus using Verilog programming.
+```
+module RippleCounter(
+   input wire clk,  // Clock input
+   output reg [3:0] count // 4-bit counter output
+);
 
- Developed by: RegisterNumber:
-*/
+// Counter logic
+always @(posedge clk) begin
+   if (count == 4'b1111) // Reset when count reaches 15
+       count <= 4'b0000;
+   else
+       count <= count + 1; // Increment count
+end
+
+endmodule
+
+// Testbench
+module RippleCounter_tb;
+
+// Inputs
+reg clk;
+
+// Outputs
+wire [3:0] count;
+
+// Instantiate the counter
+RippleCounter uut(
+   .clk(clk),
+   .count(count)
+);
+
+// Clock generation
+initial begin
+   clk = 0;
+   forever #5 clk = ~clk; // Toggle clock every 5 time units
+end
+
+// Stimulus
+initial begin
+   // Wait for a few clock cycles
+   #10;
+   
+   // Display header
+   $display("Time | Count");
+   $display("-----------------");
+   
+   // Functional table testing
+   // Increment count 16 times and display the count
+   repeat (16) begin
+       #5; // Wait for one clock cycle
+       $display("%4d | %b", $time, count);
+   end
+   
+   // End simulation
+   $finish;
+end
+
+endmodule
+```
+```
+Developed by: THARUN.V 
+RegisterNumber: 212224230290
+```
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
+![Screenshot 2025-05-14 160556](https://github.com/user-attachments/assets/730f6688-2f78-4f5b-8525-0458680f7cb2)
 
 **TIMING DIGRAMS FOR 4 Bit Ripple Counter**
+![Screenshot 2025-05-14 160610](https://github.com/user-attachments/assets/2962efd3-fe5e-4707-9acf-8007d9e2f332)
 
-**RESULTS**
+# RESULT
+Thus the program executed succesfully.
